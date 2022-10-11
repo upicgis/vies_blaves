@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 1539px;
+            height: 845px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Municipis_2.js"></script>
+        <script src="data/PAE_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:18, minZoom:9.45
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+            map.setMaxBounds(map.getBounds());
+        }
+        map.createPane('pane_ICGCTopoweb_0');
+        map.getPane('pane_ICGCTopoweb_0').style.zIndex = 400;
+        var layer_ICGCTopoweb_0 = L.tileLayer('https://tilemaps.icgc.cat/mapfactory/wmts/topo_suau/CAT3857/{z}/{x}/{y}.png', {
+            pane: 'pane_ICGCTopoweb_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 8,
+            maxZoom: 15,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_ICGCTopoweb_0;
+        map.addLayer(layer_ICGCTopoweb_0);
+        map.createPane('pane_ICGCGris_1');
+        map.getPane('pane_ICGCGris_1').style.zIndex = 401;
+        var layer_ICGCGris_1 = L.tileLayer('https://tilemaps.icgc.cat/mapfactory/wmts/gris_topo_suau/CAT3857/{z}/{x}/{y}.png', {
+            pane: 'pane_ICGCGris_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 8,
+            maxZoom: 15,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_ICGCGris_1;
+        map.addLayer(layer_ICGCGris_1);
+        function pop_Municipis_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">CODIMUNI</th>\
+                        <td>' + (feature.properties['CODIMUNI'] !== null ? autolinker.link(feature.properties['CODIMUNI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>NOMMUNI</strong><br />' + (feature.properties['NOMMUNI'] !== null ? autolinker.link(feature.properties['NOMMUNI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NOMCOMAR</th>\
+                        <td>' + (feature.properties['NOMCOMAR'] !== null ? autolinker.link(feature.properties['NOMCOMAR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>CONCA</strong><br />' + (feature.properties['CONCA'] !== null ? autolinker.link(feature.properties['CONCA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Municipis_2_0(feature) {
+            switch(String(feature.properties['CONCA'])) {
+                case 'Anoia':
+                    return {
+                pane: 'pane_Municipis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(236,62,62,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cardener':
+                    return {
+                pane: 'pane_Municipis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(24,63,130,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Llobregat':
+                    return {
+                pane: 'pane_Municipis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Llobregat-Anoia':
+                    return {
+                pane: 'pane_Municipis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(253,191,111,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Llobregat-Cardener':
+                    return {
+                pane: 'pane_Municipis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(179,188,33,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Municipis_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(207,55,106,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Municipis_2');
+        map.getPane('pane_Municipis_2').style.zIndex = 402;
+        map.getPane('pane_Municipis_2').style['mix-blend-mode'] = 'normal';
+        var layer_Municipis_2 = new L.geoJson(json_Municipis_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Municipis_2',
+            layerName: 'layer_Municipis_2',
+            pane: 'pane_Municipis_2',
+            onEachFeature: pop_Municipis_2,
+            style: style_Municipis_2_0,
+        });
+        bounds_group.addLayer(layer_Municipis_2);
+        map.addLayer(layer_Municipis_2);
+        function pop_PAE_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>nom</strong><br />' + (feature.properties['nom'] !== null ? autolinker.link(feature.properties['nom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">municipi</th>\
+                        <td>' + (feature.properties['municipi'] !== null ? autolinker.link(feature.properties['municipi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">comarca</th>\
+                        <td>' + (feature.properties['comarca'] !== null ? autolinker.link(feature.properties['comarca'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">provincia</th>\
+                        <td>' + (feature.properties['provincia'] !== null ? autolinker.link(feature.properties['provincia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Conca</strong><br />' + (feature.properties['Conca'] !== null ? autolinker.link(feature.properties['Conca'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PAE_3_0() {
+            return {
+                pane: 'pane_PAE_3',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(204,204,204,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_PAE_3');
+        map.getPane('pane_PAE_3').style.zIndex = 403;
+        map.getPane('pane_PAE_3').style['mix-blend-mode'] = 'normal';
+        var layer_PAE_3 = new L.geoJson(json_PAE_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PAE_3',
+            layerName: 'layer_PAE_3',
+            pane: 'pane_PAE_3',
+            onEachFeature: pop_PAE_3,
+            style: style_PAE_3_0,
+        });
+        bounds_group.addLayer(layer_PAE_3);
+        map.addLayer(layer_PAE_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/PAE_3.png" /> PAE': layer_PAE_3,'CONQUES<br /><table><tr><td style="text-align: center;"><img src="legend/Municipis_2_Anoia0.png" /></td><td>Anoia</td></tr><tr><td style="text-align: center;"><img src="legend/Municipis_2_Cardener1.png" /></td><td>Cardener</td></tr><tr><td style="text-align: center;"><img src="legend/Municipis_2_Llobregat2.png" /></td><td>Llobregat</td></tr><tr><td style="text-align: center;"><img src="legend/Municipis_2_LlobregatAnoia3.png" /></td><td>Llobregat-Anoia</td></tr><tr><td style="text-align: center;"><img src="legend/Municipis_2_LlobregatCardener4.png" /></td><td>Llobregat-Cardener</td></tr><tr><td style="text-align: center;"><img src="legend/Municipis_2_5.png" /></td><td></td></tr></table>': layer_Municipis_2,"Mapa de grisos": layer_ICGCGris_1,"Mapa base": layer_ICGCTopoweb_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
